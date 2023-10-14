@@ -1,12 +1,10 @@
 # https://github.com/oribe1115/traP-isucon-newbie-handson2022-demo/blob/main/Makefile
 
-HOME:=/home/isucon
-
 # setup ssh
 .PHONY: setup-ssh
 setup-ssh:
-	touch $(HOME)/.ssh/authorized_keys
-	chmod 600 $(HOME)/.ssh/authorized_keys
+	touch ~/.ssh/authorized_keys
+	chmod ~/.ssh/authorized_keys
 	curl https://github.com/putcut.keys >> ~/.ssh/authorized_keys
 	curl https://github.com/akki-F.keys >> ~/.ssh/authorized_keys
 	curl https://github.com/yorosikop.keys >> ~/.ssh/authorized_keys
@@ -25,4 +23,6 @@ install-tools:
 	rm alp
 	rm alp_linux_amd64.tar.gz
 
-# setup git
+# setup alp
+.PHONY: setup-alp
+setup-alp:
