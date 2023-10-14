@@ -3,8 +3,8 @@
 # install tools
 .PHONY: install-tools
 install-tools:
-	sudo apt update
-	sudo apt upgrade
+	sudo apt update -y
+	sudo apt upgrade -y
 	sudo apt install -y git unzip tar
 
 	# alp
