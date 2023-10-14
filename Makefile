@@ -1,7 +1,7 @@
 # https://github.com/oribe1115/traP-isucon-newbie-handson2022-demo/blob/main/Makefile
 
 # install tools
-.PHONY install-tools
+.PHONY: install-tools
 install-tools:
 	sudo apt update
 	sudo apt upgrade
