@@ -2,6 +2,8 @@
 
 GIT_DIR:=
 SERVICE_NAME:=
+NGINX_LOG:=/var/log/nginx/access.log
+SLOW_QUERY_LOG:=/var/log/mysql/mysql-slow.log
 
 # setup ssh
 .PHONY: setup-ssh
@@ -37,8 +39,8 @@ git-setup:
 
 .PHONY: truncate-log
 truncate-log:
-	sudo truncate /var/log/nginx/access.log --size 0
-	sudo truncate /var/log/mysql/mysql-slow.log --size 0
+	sudo truncate $(NGINX_LOG) --size 0
+	sudo truncate $(SLOW_QUERY_LOG) --size 0
 
 .PHONY: restart
 restart:
@@ -47,3 +49,11 @@ restart:
 	sudo systemctl restart $(SERVICE_NAME)
 	sudo systemctl restart mysql
 	sudo systemctl restart nginx
+
+.PHONY: alp
+alp:
+	sudo cat $(NGINX_LOG) | alp json
+
+.PHONY: slow-query
+slow_query:
+	sudo pt-query-digest $(SLOW_QUERY_LOG)
