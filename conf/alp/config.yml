@@ -1,0 +1,8 @@
+---
+sort: sum
+reverse: true
+query_string: true
+matching_groups:
+  - /posts/[0-9]+
+  - /image/[0-9]+\.jpg
+  - /@[a-z0-9]
