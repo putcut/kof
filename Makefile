@@ -1,6 +1,7 @@
 # https://github.com/oribe1115/traP-isucon-newbie-handson2022-demo/blob/main/Makefile
 
 GIT_DIR:=
+SERVICE_NAME:=
 
 # setup ssh
 .PHONY: setup-ssh
@@ -17,7 +18,7 @@ setup-ssh:
 install-tools:
 	sudo apt update -y
 	sudo apt upgrade -y
-	sudo apt install -y git unzip tar
+	sudo apt install -y git unzip tar percona-toolkit
 
 	# alp
 	wget https://github.com/tkuchiki/alp/releases/download/v1.0.21/alp_linux_amd64.tar.gz
@@ -27,8 +28,21 @@ install-tools:
 	rm alp_linux_amd64.tar.gz
 
 .PHONY: git-setup
+git-setup:
 	git config --global user.email "putcutpoint@gmail.com"
 	git config --global user.name "putcut"
 
 	# deploykeyの作成
 	ssh-keygen -t ed25519
+
+.PHONY: truncate-log
+alp-log:
+	sudo truncate /var/log/nginx/access.log --size 0
+	sudo truncate /var/log/mysql/mysql-slow.log --size 0
+
+.PHONY: restart
+before-bench:
+	sudo systemctl daemon-reload
+	sudo systemctl restart $(SERVICE_NAME)
+	sudo systemctl restart mysql
+	sudo systemctl restart nginx
