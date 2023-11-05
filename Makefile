@@ -36,12 +36,13 @@ git-setup:
 	ssh-keygen -t ed25519
 
 .PHONY: truncate-log
-alp-log:
+truncate-log:
 	sudo truncate /var/log/nginx/access.log --size 0
 	sudo truncate /var/log/mysql/mysql-slow.log --size 0
 
 .PHONY: restart
-before-bench:
+restart:
+	truncate-log
 	sudo systemctl daemon-reload
 	sudo systemctl restart $(SERVICE_NAME)
 	sudo systemctl restart mysql
