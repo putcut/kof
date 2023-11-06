@@ -42,6 +42,16 @@ truncate-log:
 	sudo truncate $(NGINX_LOG) --size 0
 	sudo truncate $(SLOW_QUERY_LOG) --size 0
 
+.PHONY: rotate-log
+rotate-log:
+	$(eval when := $(shell date "+%s"))
+	mkdir -p ~/logs/$(when)
+	sudo test -f $(NGINX_LOG) && \
+		sudo cp -f $(NGINX_LOG) ~/logs/nginx/$(when)/ || echo ""
+	sudo test -f $(SLOW_QUERY_LOG) && \
+		sudo cp -f $(SLOW_QUERY_LOG) ~/logs/mysql/$(when)/ || echo ""
+	truncate-log
+
 .PHONY: restart
 restart:
 	truncate-log
