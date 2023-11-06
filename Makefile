@@ -52,7 +52,7 @@ restart:
 
 .PHONY: alp
 alp:
-	sudo cat $(NGINX_LOG) | alp json
+	sudo alp json --file=$(NGINX_LOG) --config=/home/isucon/conf/alp/config.yml
 
 .PHONY: slow-query
 slow_query:
