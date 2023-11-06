@@ -65,5 +65,5 @@ alp:
 	sudo alp json --file=$(NGINX_LOG) --config=/home/isucon/conf/alp/config.yml
 
 .PHONY: slow-query
-slow_query:
+slow-query:
 	sudo pt-query-digest $(SLOW_QUERY_LOG)
