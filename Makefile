@@ -54,7 +54,7 @@ rotate-log:
 
 .PHONY: restart
 restart:
-	truncate-log
+	make truncate-log
 	sudo systemctl daemon-reload
 	sudo systemctl restart $(SERVICE_NAME)
 	sudo systemctl restart mysql
