@@ -58,11 +58,22 @@ rotate-log:
 # まとめてリスタート
 .PHONY: restart
 restart:
-	make truncate-log
+	make rotate-log
 	sudo systemctl daemon-reload
 	sudo systemctl restart $(SERVICE_NAME)
 	sudo systemctl restart mysql
 	sudo systemctl restart nginx
+
+.PHONY: pull-git
+deploy:
+	cd $(GIT_DIR)
+	git pull origin main
+	cd ~
+
+.PHONY: bench
+bench:
+	make pull-git
+	make restart
 
 # alp 出力
 .PHONY: alp
