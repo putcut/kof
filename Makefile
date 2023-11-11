@@ -65,7 +65,7 @@ restart:
 	sudo systemctl restart nginx
 
 .PHONY: pull-git
-deploy:
+pull-git:
 	cd $(GIT_DIR)
 	git pull origin main
 	cd ~
