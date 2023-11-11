@@ -58,7 +58,6 @@ rotate-log:
 # まとめてリスタート
 .PHONY: restart
 restart:
-	make rotate-log
 	sudo systemctl daemon-reload
 	sudo systemctl restart $(SERVICE_NAME)
 	sudo systemctl restart mysql
@@ -72,6 +71,7 @@ pull-git:
 .PHONY: bench
 bench:
 	make pull-git
+	make rotate-log
 	make restart
 
 # alp 出力
