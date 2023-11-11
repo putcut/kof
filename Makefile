@@ -50,9 +50,9 @@ rotate-log:
 	$(eval when := $(shell date "+%s"))
 	mkdir -p ~/logs/$(when)
 	sudo test -f $(NGINX_LOG) && \
-		sudo cp -f $(NGINX_LOG) ~/logs/nginx/$(when)/ || echo ""
+		sudo cp -f $(NGINX_LOG) ~/logs/$(when)/ || echo ""
 	sudo test -f $(SLOW_QUERY_LOG) && \
-		sudo cp -f $(SLOW_QUERY_LOG) ~/logs/mysql/$(when)/ || echo ""
+		sudo cp -f $(SLOW_QUERY_LOG) ~/logs/$(when)/ || echo ""
 	make truncate-log
 
 # まとめてリスタート
