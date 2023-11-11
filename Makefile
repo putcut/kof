@@ -66,9 +66,8 @@ restart:
 
 .PHONY: pull-git
 pull-git:
-	cd $(GIT_DIR)
-	git pull origin main
-	cd ~
+	cd $(GIT_DIR) && \
+		git pull origin main
 
 .PHONY: bench
 bench:
