@@ -29,6 +29,7 @@ install-tools:
 	rm alp
 	rm alp_linux_amd64.tar.gz
 
+# git setup
 .PHONY: git-setup
 git-setup:
 	git config --global user.email "putcutpoint@gmail.com"
@@ -37,11 +38,13 @@ git-setup:
 	# deploykeyの作成
 	ssh-keygen -t ed25519
 
+# ログの中身を空にする
 .PHONY: truncate-log
 truncate-log:
 	sudo truncate $(NGINX_LOG) --size 0
 	sudo truncate $(SLOW_QUERY_LOG) --size 0
 
+# ログローテーション
 .PHONY: rotate-log
 rotate-log:
 	$(eval when := $(shell date "+%s"))
@@ -50,8 +53,9 @@ rotate-log:
 		sudo cp -f $(NGINX_LOG) ~/logs/nginx/$(when)/ || echo ""
 	sudo test -f $(SLOW_QUERY_LOG) && \
 		sudo cp -f $(SLOW_QUERY_LOG) ~/logs/mysql/$(when)/ || echo ""
-	truncate-log
+	make truncate-log
 
+# まとめてリスタート
 .PHONY: restart
 restart:
 	make truncate-log
@@ -60,10 +64,22 @@ restart:
 	sudo systemctl restart mysql
 	sudo systemctl restart nginx
 
+# alp 出力
 .PHONY: alp
 alp:
 	sudo alp json --file=$(NGINX_LOG) --config=/home/isucon/conf/alp/config.yml
 
+# slow query 解析
 .PHONY: slow-query
 slow-query:
 	sudo pt-query-digest $(SLOW_QUERY_LOG)
+
+# systemd service 一覧
+.PHONY: list-service
+list-service:
+	sudo systemctl list-units --type=service
+
+# journalctlでserviceをtail
+.PHONY: tail-journal
+tail-journal:
+	sudo journalctl -u $(SERVICE_NAME) -n 10 -f
