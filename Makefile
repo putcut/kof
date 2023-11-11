@@ -82,7 +82,7 @@ list-service:
 # journalctlでserviceをtail
 .PHONY: tail-journal
 tail-journal:
-	sudo journalctl -u $(SERVICE_NAME) -n 10 -f
+	sudo journalctl -u $(SERVICE_NAME) -n10 -f
 
 # OSの情報
 .PHONY: detail-os
