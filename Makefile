@@ -80,6 +80,7 @@ alp:
 	sudo alp json --file=$(NGINX_LOG) --config=/home/isucon/conf/alp/config.yml
 
 # slow query 解析
+# --limit [num] で表示する件数を指定
 .PHONY: slow-query
 slow-query:
 	sudo pt-query-digest $(SLOW_QUERY_LOG)
